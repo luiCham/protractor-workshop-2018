@@ -3,6 +3,8 @@ import { browser } from 'protractor';
 import { MenuContentPage, ProductListPage, ProductAddedModalPage, SummaryStepPage, SignInPage, AddressPage, ShippingPage, PaymentPage, BankPaymentPage, OrderSummaryPage } from '../src/page';
 
 describe('Buy a t-shirt', () => {
+  const email = 'j.l-h@hotmail.com';
+  const password = 'vkvkvkvk';
   const menuContentPage: MenuContentPage = new MenuContentPage();
   const productListPage: ProductListPage = new ProductListPage();
   const productAddedModalPage: ProductAddedModalPage = new ProductAddedModalPage();
@@ -34,8 +36,8 @@ describe('Buy a t-shirt', () => {
     await summaryStepPage.goToNextPage();
     await(browser.sleep(3000));
 
-    await signInPage.fillEmail();
-    await signInPage.fillPassword();
+    await signInPage.fillEmail(email);
+    await signInPage.fillPassword(password);
     await signInPage.goToNextPage();
     await(browser.sleep(3000));
 

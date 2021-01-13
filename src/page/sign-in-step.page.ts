@@ -4,8 +4,6 @@ export class SignInPage {
   private nextButton: ElementFinder;
   private emailField: ElementFinder;
   private passwordField: ElementFinder;
-  private email = 'j.l-h@hotmail.com';
-  private password = 'vkvkvkvk';
 
   constructor () {
     this.nextButton = $('#SubmitLogin > span');
@@ -13,11 +11,11 @@ export class SignInPage {
     this.passwordField = $('#passwd');
   }
 
-  public async fillEmail(): Promise<void> {
-    await this.emailField.sendKeys(this.email);
+  public async fillEmail(email: string): Promise<void> {
+    await this.emailField.sendKeys(email);
   }
-  public async fillPassword(): Promise<void> {
-    await this.passwordField.sendKeys(this.password);
+  public async fillPassword(password: string): Promise<void> {
+    await this.passwordField.sendKeys(password);
   }
   public async goToNextPage(): Promise<void> {
     await this.nextButton.click();
