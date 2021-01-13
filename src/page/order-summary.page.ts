@@ -4,7 +4,7 @@ export class OrderSummaryPage {
   private finalMessage: ElementFinder;
 
   constructor () {
-    this.finalMessage = $('#strong.dark');
+    this.finalMessage = $('#center_column > div > p > strong');
   }
 
   public async getMessage(): Promise<string> {
