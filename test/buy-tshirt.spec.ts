@@ -1,41 +1,60 @@
-import { $, browser } from 'protractor';
+import { browser } from 'protractor';
+// tslint:disable-next-line: max-line-length
+import { MenuContentPage, ProductListPage, ProductAddedModalPage, SummaryStepPage, SignInPage, AddressPage, ShippingPage, PaymentPage, BankPaymentPage, OrderSummaryPage } from '../src/page';
 
 describe('Buy a t-shirt', () => {
+  const email = 'j.l-h@hotmail.com';
+  const password = 'vkvkvkvk';
+  const menuContentPage: MenuContentPage = new MenuContentPage();
+  const productListPage: ProductListPage = new ProductListPage();
+  const productAddedModalPage: ProductAddedModalPage = new ProductAddedModalPage();
+  const summaryStepPage: SummaryStepPage = new SummaryStepPage();
+  const signInPage: SignInPage = new SignInPage();
+  const addressPage: AddressPage = new AddressPage();
+  const shippingPage: ShippingPage = new ShippingPage();
+  const paymentPage: PaymentPage = new PaymentPage();
+  const bankpaymentPage: BankPaymentPage = new BankPaymentPage();
+  const orderSummaryPage: OrderSummaryPage = new OrderSummaryPage();
+
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000;
   });
 
   it('then should be bought a t-shirt', async () => {
     await browser.get('http://automationpractice.com/');
-    await(browser.sleep(10000));
-    await $('#block_top_menu > ul > li:nth-child(3) > a').click();
-    await(browser.sleep(3000));
-    await $('#center_column a.button.ajax_add_to_cart_button.btn.btn-default').click();
-    await(browser.sleep(3000));
-    await $('[style*="display: block;"] .button-container > a').click();
-    await(browser.sleep(3000));
-    await $('.cart_navigation span').click();
     await(browser.sleep(3000));
 
-    await $('#email').sendKeys('j.l-h@hotmail.com');
-    await $('#passwd').sendKeys('vkvkvkvk');
-    await $('#SubmitLogin > span').click();
+    await menuContentPage.goToTShirtMenu();
     await(browser.sleep(3000));
 
-    await $('#center_column > form > p > button > span').click();
+    await productListPage.goToShirt();
     await(browser.sleep(3000));
 
-    await $('#cgv').click();
+    await productAddedModalPage.goTocheckout();
     await(browser.sleep(3000));
 
-    await $('#form > p > button > span').click();
-    await(browser.sleep(3000));
-    await $('#HOOK_PAYMENT > div:nth-child(1) > div > p > a').click();
-    await(browser.sleep(3000));
-    await $('#cart_navigation > button > span').click();
+    await summaryStepPage.goToNextPage();
     await(browser.sleep(3000));
 
-    await expect($('#center_column > div > p > strong').getText())
-      .toBe('Your order on My Store is complete.');
+    await signInPage.fillEmail(email);
+    await signInPage.fillPassword(password);
+    await signInPage.goToNextPage();
+    await(browser.sleep(3000));
+
+    await addressPage.goToNextPage();
+    await(browser.sleep(3000));
+
+    await shippingPage.checkTermsOfService();
+    await(browser.sleep(3000));
+    await shippingPage.goToNextPage();
+    await(browser.sleep(3000));
+
+    await paymentPage.goToBankPayment();
+    await(browser.sleep(3000));
+
+    await bankpaymentPage.pay();
+    await(browser.sleep(3000));
+
+    await (expect(orderSummaryPage.getMessage()).toBe('Your order on My Store is complete.'));
   });
 });
