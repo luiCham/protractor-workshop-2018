@@ -4,7 +4,7 @@ export class PaymentPage {
   private paymentButton: ElementFinder;
 
   constructor () {
-    this.paymentButton = $('#HOOK_PAYMENT > div:nth-child(1) > div > p > a');
+    this.paymentButton = $('#HOOK_PAYMENT .bankwire');
   }
 
   public async goToBankPayment(): Promise<void> {

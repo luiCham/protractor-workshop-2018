@@ -5,7 +5,7 @@ export class ShippingPage {
   private checkBox: ElementFinder;
 
   constructor () {
-    this.nextButton = $('#form > p > button > span');
+    this.nextButton = $('.cart_navigation button[name="processCarrier"]');
     this.checkBox =  $('#cgv');
   }
 

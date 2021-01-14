@@ -6,7 +6,7 @@ export class SignInPage {
   private passwordField: ElementFinder;
 
   constructor () {
-    this.nextButton = $('#SubmitLogin > span');
+    this.nextButton = $('#SubmitLogin');
     this.emailField = $('#email');
     this.passwordField = $('#passwd');
   }
