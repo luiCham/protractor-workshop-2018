@@ -4,7 +4,7 @@ export class AddressPage {
   private nextButton: ElementFinder;
 
   constructor () {
-    this.nextButton = $('#center_column > form > p > button > span');
+    this.nextButton = $('.cart_navigation button[name="processAddress"]');
   }
 
   public async goToNextPage(): Promise<void> {

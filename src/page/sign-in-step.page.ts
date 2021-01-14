@@ -6,9 +6,9 @@ export class SignInPage {
   private passwordField: ElementFinder;
 
   constructor () {
-    this.nextButton = $('#SubmitLogin > span');
-    this.emailField = $('#email');
-    this.passwordField = $('#passwd');
+    this.nextButton = $('#login_form #SubmitLogin');
+    this.emailField = $('#login_form #email');
+    this.passwordField = $('#login_form #passwd');
   }
 
   public async fillEmail(email: string): Promise<void> {
