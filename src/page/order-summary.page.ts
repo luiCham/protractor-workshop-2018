@@ -4,7 +4,7 @@ export class OrderSummaryPage {
   private finalMessage: ElementFinder;
 
   constructor () {
-    this.finalMessage = $('#center_column div.box p.cheque-indent > strong');
+    this.finalMessage = $('#center_column p.cheque-indent > strong');
   }
 
   public async getMessage(): Promise<string> {
