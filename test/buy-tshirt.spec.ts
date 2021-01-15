@@ -24,8 +24,10 @@ describe('Buying a T-shirt', () => {
       await (browser.sleep(1000));
 
       await productAddedModalPage.goTocheckout();
+      await (browser.sleep(1000));
 
       await summaryStepPage.goToNextPage();
+      await (browser.sleep(1000));
     });
 
   });
