@@ -30,7 +30,7 @@ describe('Buying a T-shirt', () => {
 
   });
 
-  describe('sing in', async () => {
+  describe('sign in', async () => {
     const signInPage: SignInPage = new SignInPage();
     const email = 'j.l-h@hotmail.com';
     const password = 'vkvkvkvk';
