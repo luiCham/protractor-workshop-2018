@@ -6,7 +6,7 @@ export class ShippingPage {
 
   constructor () {
     this.nextButton = $('.cart_navigation button[name="processCarrier"]');
-    this.checkBox =  $('.order_carrier_content input#cgv');
+    this.checkBox =  $('#cgv');
   }
 
   public async goToNextPage(): Promise<void> {
