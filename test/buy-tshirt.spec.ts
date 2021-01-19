@@ -18,8 +18,10 @@ describe('Testing T-shirt buying process', () => {
       beforeAll(async() => {
         await menuContentPage.goToTShirtMenu();
         await (browser.sleep(1000));
-        await productListPage.goToShirt();
-        await (browser.sleep(1000));
+        await productListPage.selectProduct('Faded Short Sleeve T-shirts');
+        await (browser.sleep(2000));
+        await productListPage.addSelectedToCart();
+        await (browser.sleep(2000));
         await productAddedModalPage.goTocheckout();
         await (browser.sleep(500));
         await summaryStepPage.goToNextPage();
