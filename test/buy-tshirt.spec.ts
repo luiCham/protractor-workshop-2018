@@ -1,70 +1,71 @@
 import { browser } from 'protractor';
 // tslint:disable-next-line: max-line-length
 import { MenuContentPage, ProductListPage, ProductAddedModalPage, SummaryStepPage, SignInPage, AddressPage, ShippingPage, PaymentPage, BankPaymentPage, OrderSummaryPage } from '../src/page';
-describe('Buying a T-shirt', () => {
 
-  describe('Opening web page', () => {
-    it('Web page loads correctly', async() => {
-      await (browser.get('http://automationpractice.com/'));
-      await (browser.sleep(1000));
-    });
-  });
+describe('Testing T-shirt buying process', () => {
 
-  describe('Start buy process', async () => {
-    const summaryStepPage: SummaryStepPage = new SummaryStepPage();
-    const menuContentPage: MenuContentPage = new MenuContentPage();
-    const productListPage: ProductListPage = new ProductListPage();
-    const productAddedModalPage: ProductAddedModalPage = new ProductAddedModalPage();
-
-    it('Choose a t-shirt and start purchase process', async() => {
-      await menuContentPage.goToTShirtMenu();
-      await (browser.sleep(1000));
-
-      await productListPage.goToShirt();
-      await (browser.sleep(1000));
-
-      await productAddedModalPage.goTocheckout();
-      await (browser.sleep(1000));
-
-      await summaryStepPage.goToNextPage();
-      await (browser.sleep(1000));
+  describe('opening web page', async () => {
+    beforeAll(async () => {
+      await browser.get('http://automationpractice.com/');
+      await (browser.sleep(500));
     });
 
-  });
+    describe('Buying T-shirt', async() => {
+      const menuContentPage: MenuContentPage = new MenuContentPage();
+      const productListPage: ProductListPage = new ProductListPage();
+      const productAddedModalPage: ProductAddedModalPage = new ProductAddedModalPage();
+      const summaryStepPage: SummaryStepPage = new SummaryStepPage();
+      beforeAll(async() => {
+        await menuContentPage.goToTShirtMenu();
+        await (browser.sleep(1000));
+        await productListPage.goToShirt();
+        await (browser.sleep(1000));
+        await productAddedModalPage.goTocheckout();
+        await (browser.sleep(500));
+        await summaryStepPage.goToNextPage();
+        await (browser.sleep(500));
+      });
 
-  describe('sign in', async () => {
-    const signInPage: SignInPage = new SignInPage();
-    const email = 'j.l-h@hotmail.com';
-    const password = 'vkvkvkvk';
-    it('Signed in', async () => {
-      await signInPage.fillEmail(email);
-      await signInPage.fillPassword(password);
-      await signInPage.goToNextPage();
-    });
-  });
+      describe('Signing in', async() => {
+        const email = 'j.l-h@hotmail.com';
+        const password = 'vkvkvkvk';
+        const signInPage: SignInPage = new SignInPage();
+        beforeAll(async() => {
+          await signInPage.fillEmail(email);
+          await signInPage.fillPassword(password);
+          await signInPage.goToNextPage();
+          await (browser.sleep(500));
+        });
 
-  describe('Selecting Address', () => {
-    const addressPage: AddressPage = new AddressPage();
-    it('Continue with default address', async () => {
-      await addressPage.goToNextPage();
+        describe('Select shipping address', async() => {
+          const addressPage: AddressPage = new AddressPage();
+          const shippingPage: ShippingPage = new ShippingPage();
+          beforeAll(async() => {
+            await addressPage.goToNextPage();
+            await (browser.sleep(500));
+            await shippingPage.checkTermsOfService();
+            await shippingPage.goToNextPage();
+            await (browser.sleep(500));
+          });
 
-    });
-  });
+          describe('Paying', async() => {
+            const paymentPage: PaymentPage = new PaymentPage();
+            const bankpaymentPage: BankPaymentPage = new BankPaymentPage();
+            const orderSummaryPage: OrderSummaryPage = new OrderSummaryPage();
+            beforeAll(async() => {
+              await paymentPage.goToBankPayment();
+              await (browser.sleep(500));
+              await bankpaymentPage.pay();
+              await (browser.sleep(500));
+            });
 
-  describe('Payment', () => {
-    const shippingPage: ShippingPage = new ShippingPage();
-    const paymentPage: PaymentPage = new PaymentPage();
-    const bankpaymentPage: BankPaymentPage = new BankPaymentPage();
-    const orderSummaryPage: OrderSummaryPage = new OrderSummaryPage();
-    it('Successfully purchased', async () => {
-      await shippingPage.checkTermsOfService();
-      await shippingPage.goToNextPage();
-
-      await paymentPage.goToBankPayment();
-
-      await bankpaymentPage.pay();
-
-      await (expect(orderSummaryPage.getMessage()).toBe('Your order on My Store is complete.'));
+            it('Buying process is successful', async () => {
+              await (expect(orderSummaryPage.getMessage())
+              .toBe('Your order on My Store is complete.'));
+            });
+          });
+        });
+      });
     });
   });
 });
