@@ -1,4 +1,5 @@
-import { browser, by, element, ElementArrayFinder, ElementFinder } from 'protractor';
+import path = require('path');
+import { $, browser, by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 
 export class PersonalInformationPage {
 
@@ -9,6 +10,7 @@ export class PersonalInformationPage {
   private inputs:ElementArrayFinder;
   private submitBtn:ElementFinder;
   private title:ElementFinder;
+  private uploadFileInput:ElementFinder;
 
   constructor () {
     this.inputs = element.all(by.tagName('input'));
@@ -36,6 +38,8 @@ export class PersonalInformationPage {
     this.submitBtn = element(by.name('submit'));
 
     this.title = element(by.className('mui-col-md-6')).element(by.tagName('h1'));
+
+    this.uploadFileInput = $('input[name="photo"]');
   }
 
   public async fillTextInput(name:string, value:string): Promise<void> {
@@ -91,7 +95,6 @@ export class PersonalInformationPage {
   }
 
   public async fillForm(data:Object) {
-
     await this.fillTextInput('firstname', data['firstName']);
     await this.fillTextInput('lastname', data['lastName']);
     await this.fillRadioInput('sex', data['sex']);
@@ -100,14 +103,28 @@ export class PersonalInformationPage {
     await this.fillCheckboxInput('tool', data['tools']);
     await this.fillSelectInput('continents', [data['continent']]);
     await this.fillSelectInput('selenium_commands', data['commands']);
-    await (browser.sleep(500));
-    await this.submitBtn.click();
-    await (await browser.switchTo().alert()).accept();
-    await (browser.sleep(500));
+    await this.uploadFile(data['file']);
   }
 
   public async getTitle(): Promise<string> {
     return await this.title.getText();
+  }
+
+  public async submit(data:Object) {
+    await this.fillForm(data);
+    await this.submitBtn.click();
+    (await browser.switchTo().alert()).accept();
+    await browser.sleep(500);
+  }
+
+  public async uploadFile(file:string) {
+    const absolutePath = path.resolve('__dirname', file);
+    await this.uploadFileInput.sendKeys(absolutePath);
+    await browser.sleep(100);
+  }
+
+  public async getLoadedFile() {
+    return await this.uploadFileInput.getText();
   }
 
 }

@@ -4,6 +4,7 @@ import { PersonalInformationPage } from '../src/page';
 
 describe('Filling form', async() => {
   const personalInformationPage: PersonalInformationPage = new PersonalInformationPage();
+  let success = false;
   beforeAll(async () => {
     await browser.get('https://www.tutorialspoint.com/selenium/selenium_automation_practice.htm');
     await (browser.sleep(2000));
@@ -22,9 +23,14 @@ describe('Filling form', async() => {
         'Navigation Commands',
         'Switch Commands',
         'Wait Commands',
-        'WebElement Commands']
+        'WebElement Commands'],
+      file: '../resources/test.png'
+    }).then(() => {
+      success = true;
     });
     await (browser.sleep(2000));
     expect(await personalInformationPage.getTitle()).toEqual('Selenium - Automation Practice Form');
+    console.log(success);
+    expect(success).toBe(true);
   });
 });
