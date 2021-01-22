@@ -1,15 +1,14 @@
-import { browser, by, element, ElementArrayFinder } from 'protractor';
+import { browser, by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 
 export class PersonalInformationPage {
 
   private textInputs:ElementArrayFinder;
   private radioInputs:ElementArrayFinder;
   private checkboxInputs:ElementArrayFinder;
+  private selectInputs:ElementArrayFinder;
   private inputs:ElementArrayFinder;
-
-  private enum={
-    firstname:this.fillTextInput('firstname', 'asdasd')
-  }
+  private submitBtn:ElementFinder;
+  private title:ElementFinder;
 
   constructor () {
     this.inputs = element.all(by.tagName('input'));
@@ -32,6 +31,11 @@ export class PersonalInformationPage {
       });
     });
 
+    this.selectInputs = element.all(by.tagName('select'));
+
+    this.submitBtn = element(by.name('submit'));
+
+    this.title = element(by.className('mui-col-md-6')).element(by.tagName('h1'));
   }
 
   public async fillTextInput(name:string, value:string): Promise<void> {
@@ -51,39 +55,59 @@ export class PersonalInformationPage {
       });
     });
 
-    const locatedRadioInput = await filteredRadioInputs.filter((input) => {
-      return input.getAttribute('value').then((radioValue) => {
-        return radioValue === value;
-      });
-    })[0];
-
-    await locatedRadioInput.click();
+    filteredRadioInputs.forEach(async (radio) => {
+      if (await radio.getAttribute('value') === value) {
+        radio.click();
+      }
+    });
   }
 
-  public async fillCheckboxInput(name:string, value:string): Promise<void> {
+  public async fillCheckboxInput(name:string, value:string[]): Promise<void> {
     const filteredCheckboxInputs = await this.checkboxInputs.filter((input) => {
       return input.getAttribute('name').then((attName) => {
         return attName === name;
       });
     });
 
-    const locatedCheckboxInput = await filteredCheckboxInputs.filter((input) => {
-      return input.getAttribute('value').then((radioValue) => {
-        return radioValue === value;
-      });
-    })[0];
+    await filteredCheckboxInputs.forEach(async (checkbox) => {
+      if (value.includes(await checkbox.getAttribute('value'))) {
+        checkbox.click();
+      }
+    });
+  }
 
-    await locatedCheckboxInput.click();
+  public async fillSelectInput(name:string, value:string[]) {
+    const filteredOptions = await this.selectInputs.filter((input) => {
+      return input.getAttribute('name').then((attName) => {
+        return attName === name;
+      });
+    }).all(by.tagName('option'));
+
+    filteredOptions.forEach(async (option) => {
+      if (value.includes(await option.getText())) {
+        option.click();
+      }
+    });
   }
 
   public async fillForm(data:Object) {
 
+    await this.fillTextInput('firstname', data['firstName']);
+    await this.fillTextInput('lastname', data['lastName']);
+    await this.fillRadioInput('sex', data['sex']);
+    await this.fillRadioInput('exp', data['experience'].toString());
+    await this.fillCheckboxInput('profession', data['profession']);
+    await this.fillCheckboxInput('tool', data['tools']);
+    await this.fillSelectInput('continents', [data['continent']]);
+    await this.fillSelectInput('selenium_commands', data['commands']);
+    await (browser.sleep(500));
+    await this.submitBtn.click();
+    await (await browser.switchTo().alert()).accept();
+    await (browser.sleep(500));
+  }
 
-
-    await this.fillRadioInput('sex', 'Male');
-    await this.fillCheckboxInput('profession', 'Automation tester');
-    await this.fillTextInput('firstname', 'Alejandro');
-    await (browser.sleep(5000));
+  public async getTitle(): Promise<string> {
+    return await this.title.getText();
   }
 
 }

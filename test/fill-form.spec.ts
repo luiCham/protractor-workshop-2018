@@ -7,6 +7,8 @@ describe('Filling form', async() => {
   beforeAll(async () => {
     await browser.get('https://www.tutorialspoint.com/selenium/selenium_automation_practice.htm');
     await (browser.sleep(2000));
+  });
+  it('Title is correct', async() => {
     await personalInformationPage.fillForm({
       firstName: 'Alejandro',
       lastName: 'Perdomo',
@@ -22,8 +24,7 @@ describe('Filling form', async() => {
         'Wait Commands',
         'WebElement Commands']
     });
-  });
-  it('', async() => {
-
+    await (browser.sleep(2000));
+    expect(await personalInformationPage.getTitle()).toEqual('Selenium - Automation Practice Form');
   });
 });
