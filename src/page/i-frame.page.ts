@@ -12,7 +12,6 @@ export class IFramePage {
   }
 
   public async getFrameHeight() {
-    console.log(await this.iframe1.getAttribute('height'));
     return await this.iframe1.getAttribute('height');
   }
 
