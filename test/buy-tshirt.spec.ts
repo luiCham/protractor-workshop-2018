@@ -1,7 +1,6 @@
 import { browser } from 'protractor';
 // tslint:disable-next-line: max-line-length
 import { MenuContentPage, ProductListPage, ProductAddedModalPage, SummaryStepPage, SignInPage, AddressPage, ShippingPage, PaymentPage, BankPaymentPage, OrderSummaryPage } from '../src/page';
-
 describe('Testing T-shirt buying process', () => {
 
   describe('opening web page', async () => {
