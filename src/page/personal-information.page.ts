@@ -38,7 +38,7 @@ export class PersonalInformationPage {
     this.title = element(by.className('mui-col-md-6')).element(by.tagName('h1'));
   }
 
-  public async fillTextInput(name:string, value:string): Promise<void> {
+  private async fillTextInput(name:string, value:string): Promise<void> {
     const textInput = await this.textInputs.filter((input) => {
       return input.getAttribute('name').then((attName) => {
         return attName === name;
@@ -48,7 +48,7 @@ export class PersonalInformationPage {
     await textInput.sendKeys(value);
   }
 
-  public async fillRadioInput(name:string, value:string): Promise<void> {
+  private async fillRadioInput(name:string, value:string): Promise<void> {
     const filteredRadioInputs = await this.radioInputs.filter((input) => {
       return input.getAttribute('name').then((attName) => {
         return attName === name;
@@ -62,7 +62,7 @@ export class PersonalInformationPage {
     });
   }
 
-  public async fillCheckboxInput(name:string, value:string[]): Promise<void> {
+  private async fillCheckboxInput(name:string, value:string[]): Promise<void> {
     const filteredCheckboxInputs = await this.checkboxInputs.filter((input) => {
       return input.getAttribute('name').then((attName) => {
         return attName === name;
@@ -76,7 +76,7 @@ export class PersonalInformationPage {
     });
   }
 
-  public async fillSelectInput(name:string, value:string[]) {
+  private async fillSelectInput(name:string, value:string[]) {
     const filteredOptions = await this.selectInputs.filter((input) => {
       return input.getAttribute('name').then((attName) => {
         return attName === name;
