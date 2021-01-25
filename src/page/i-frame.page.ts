@@ -3,10 +3,12 @@ import { $, browser, ElementFinder, promise } from 'protractor';
 export class IFramePage {
   private iframe1: ElementFinder;
   private pageTitle: ElementFinder;
+  private frameTitle: ElementFinder;
 
   constructor () {
     this.iframe1 = $('#frame1');
     this.pageTitle = $('.main-header');
+    this.frameTitle = $('#sampleHeading');
   }
 
   public setFormFrameHeight(height: number): promise.Promise<void> {
@@ -22,8 +24,7 @@ export class IFramePage {
   }
 
   public async getFrameTitle() {
-    const title = $('#sampleHeading');
-    return await title.getText();
+    return await this.frameTitle.getText();
   }
 
   public async switchToFrame(): Promise<void> {
